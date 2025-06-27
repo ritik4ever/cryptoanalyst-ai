@@ -8,7 +8,7 @@ export const useWalletAuth = () => {
   const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
-  const { signMessage } = useSignMessage();
+  const { signMessageAsync } = useSignMessage(); // Changed from signMessage
 
   const connectWallet = async (connectorId: string) => {
     try {
@@ -42,8 +42,8 @@ export const useWalletAuth = () => {
       // Create sign-in message
       const message = `Sign in to CryptoAnalyst AI\n\nAddress: ${address}\nNonce: ${nonce}\nTimestamp: ${Date.now()}`;
 
-      // Sign message
-      const signature = await signMessage({ message });
+      // Sign message - use signMessageAsync instead
+      const signature = await signMessageAsync({ message });
 
       // Verify signature and authenticate
       const authResponse = await authAPI.walletLogin({
